@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard de Obra · Artigraf Torreón</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  :root{
+    --green:#16a34a; --green2:#22c55e; --blue:#0b3b6f; --blue2:#1e5fae;
+    --amber:#f59e0b; --red:#ef4444; --slate:#64748b; --ink:#0f172a;
+    --bg:#eef2f7; --card:#ffffff; --line:#e3e9f0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 20px 48px}
+  /* Header */
+  header{background:linear-gradient(135deg,#0b3b6f 0%,#0e6b46 55%,#16a34a 100%);color:#fff;border-radius:0 0 22px 22px;
+    padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 10px 30px rgba(11,59,111,.18)}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:26px}
+  header h1{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
+  header .sub{margin-top:3px;font-size:13px;opacity:.92;font-weight:500}
+  .btn{background:#fff;color:#0e6b46;border:none;border-radius:10px;padding:11px 16px;font-weight:700;font-size:13px;
+    cursor:pointer;display:flex;align-items:center;gap:7px;font-family:inherit;box-shadow:0 4px 12px rgba(0,0,0,.12);transition:.15s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .updated{font-size:11px;opacity:.85;margin-top:6px;text-align:right}
+  /* Section titles */
+  .sec{display:flex;align-items:center;gap:9px;margin:26px 2px 12px;font-size:15px;font-weight:700;color:var(--blue)}
+  .sec .bar{width:4px;height:18px;border-radius:3px;background:var(--green)}
+  /* Project strip */
+  .proj{display:flex;flex-wrap:wrap;gap:10px 26px;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:14px 20px;margin-top:18px}
+  .proj div{font-size:13px;color:var(--slate)} .proj b{color:var(--ink)}
+  /* KPI grid */
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;position:relative;overflow:hidden}
+  .kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--green)}
+  .kpi .lab{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--slate);font-weight:700}
+  .kpi .val{font-size:30px;font-weight:800;margin:8px 0 2px;line-height:1}
+  .kpi .hint{font-size:11.5px;color:var(--slate);font-weight:500}
+  .kpi.k-blue::before{background:var(--blue2)} .kpi.k-amber::before{background:var(--amber)}
+  .kpi.k-red::before{background:var(--red)} .kpi.k-slate::before{background:var(--slate)}
+  .v-green{color:var(--green)} .v-blue{color:var(--blue2)} .v-amber{color:var(--amber)} .v-red{color:var(--red)} .v-ink{color:var(--ink)}
+  /* Cards / charts */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:0 1px 3px rgba(15,23,42,.04)}
+  .panel h3{margin:0 0 14px;font-size:14px;font-weight:700;color:var(--ink)}
+  .chart-box{position:relative;height:300px}
+  .chart-box.tall{height:340px}
+  /* Hito bars */
+  .hito{margin-bottom:13px}
+  .hito .top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}
+  .hito .nm{font-weight:600} .hito .pc{font-weight:700}
+  .track{height:9px;background:#eef2f7;border-radius:6px;overflow:hidden}
+  .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--green2),var(--green));transition:width .6s}
+  .hito .meta{font-size:10.5px;color:var(--slate);margin-top:3px}
+  /* Tables */
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;color:var(--slate);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;
+    padding:8px 10px;border-bottom:2px solid var(--line)}
+  td{padding:9px 10px;border-bottom:1px solid #f1f5f9}
+  tr:hover td{background:#f8fafc}
+  .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:700}
+  .b-pend{background:#eef2f7;color:#475569} .b-proc{background:#fef3c7;color:#b45309}
+  .b-comp{background:#dcfce7;color:#15803d} .b-canc{background:#fee2e2;color:#b91c1c}
+  .scroll{max-height:430px;overflow:auto}
+  .footer{margin-top:30px;text-align:center;color:var(--slate);font-size:12px}
+  .loading{padding:60px;text-align:center;color:var(--slate)}
+  .errbox{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:12px;padding:18px;margin-top:18px;font-size:13px}
+  @media(max-width:1000px){.kpis{grid-template-columns:repeat(3,1fr)}.grid2,.grid3{grid-template-columns:1fr}}
+  @media(max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}header{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">☀️</div>
+    <div>
+      <h1>Dashboard de Avance de Obra</h1>
+      <div class="sub" id="hsub">Artigraf · Planta Torreón — cargando…</div>
+    </div>
+  </div>
+  <div>
+    <button class="btn" onclick="cargar()">⟳ Actualizar</button>
+    <div class="updated" id="updated"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="app"><div class="loading">Cargando datos del proyecto…</div></div>
+</div>
+
+<script>
+const $ = (id)=>document.getElementById(id);
+let charts = {};
+
+function pct(n){ if(n==null) return "—"; return (Math.round(n*10)/10).toString().replace(/\.0$/,"") + "%"; }
+function badge(s){
+  const m={"Completado":"b-comp","En proceso":"b-proc","Pendiente":"b-pend","Cancelado":"b-canc"};
+  return `<span class="badge ${m[s]||'b-pend'}">${s}</span>`;
+}
+
+async function cargar(){
+  if(window.__PREVIEW__){ render(window.__PREVIEW__); return; }
+  $("app").innerHTML = '<div class="loading">Cargando datos del proyecto…</div>';
+  let d;
+  try{
+    let r = await fetch('/api/data?t='+Date.now());
+    if(!r.ok){ throw new Error((await r.json()).detalle || ('HTTP '+r.status)); }
+    d = await r.json();
+  }catch(e){
+    // Fallback para previsualización local
+    try{ d = await (await fetch('./sample-data.json?t='+Date.now())).json(); }
+    catch(_){ $("app").innerHTML = `<div class="errbox"><b>No se pudieron cargar los datos.</b><br>${e.message}</div>`; return; }
+  }
+  render(d);
+}
+
+function render(d){
+  const k = d.kpis, p = d.proyecto;
+  $("hsub").textContent = `${p.cliente} · ${p.ubicacion} — ${p.nombre} · datos en vivo`;
+  $("updated").textContent = "Actualizado: " + new Date(d.generadoEn).toLocaleString('es-MX',{dateStyle:'medium',timeStyle:'short'});
+
+  const desvPos = k.diasDesviacion >= 0;
+  const desvTxt = (desvPos?"+":"") + k.diasDesviacion;
+  const desvLab = desvPos ? "días de adelanto" : "días de atraso";
+
+  $("app").innerHTML = `
+    <div class="proj">
+      <div>Cliente: <b>${p.cliente}</b></div>
+      <div>Project Manager: <b>${p.pm}</b></div>
+      <div>Arranque: <b>${p.fechaArranque||'—'}</b></div>
+      <div>Fin construcción (prog.): <b>${p.fechaFinConstruccion||'—'}</b></div>
+      <div>Duración total: <b>${k.diasTotal} días</b></div>
+    </div>
+
+    <div class="sec"><span class="bar"></span>Resumen ejecutivo</div>
+    <div class="kpis">
+      <div class="kpi"><div class="lab">Avance General</div><div class="val v-green">${pct(k.avanceGeneral)}</div><div class="hint">vs ${pct(k.programadoHoy)} programado hoy</div></div>
+      <div class="kpi k-blue"><div class="lab">Construcción</div><div class="val v-blue">${pct(k.avanceConstruccion)}</div><div class="hint">${k.diasConstruccion} días de cronograma</div></div>
+      <div class="kpi k-amber"><div class="lab">Trámites CFE</div><div class="val v-amber">${pct(k.avanceCFE)}</div><div class="hint">${k.diasCFE} días de cronograma</div></div>
+      <div class="kpi ${desvPos?'':'k-red'}"><div class="lab">Desviación</div><div class="val ${desvPos?'v-green':'v-red'}">${desvTxt}</div><div class="hint">${desvLab}</div></div>
+      <div class="kpi k-slate"><div class="lab">Días faltantes obra</div><div class="val v-ink">${k.diasFaltantesConstr ?? '—'}</div><div class="hint">para terminar construcción</div></div>
+      <div class="kpi"><div class="lab">Actividades</div><div class="val v-ink">${k.completadas}/${k.totalActividades}</div><div class="hint">completadas</div></div>
+    </div>
+
+    <div class="sec"><span class="bar"></span>Avance del proyecto</div>
+    <div class="grid3">
+      <div class="panel"><h3>Curva S — avance acumulado programado vs real</h3><div class="chart-box tall"><canvas id="curva"></canvas></div></div>
+      <div class="panel"><h3>Estatus de actividades</h3><div class="chart-box tall"><canvas id="donut"></canvas></div></div>
+    </div>
+
+    <div class="grid2" style="margin-top:16px">
+      <div class="panel"><h3>Avance por hito / etapa</h3><div id="hitos"></div></div>
+      <div class="panel"><h3>Próximas actividades</h3>
+        <table><thead><tr><th>Inicio</th><th>Etapa</th><th>Actividad</th><th>Estatus</th></tr></thead>
+        <tbody>${d.proximasActividades.map(a=>`<tr><td>${a.inicio||'—'}</td><td>${a.hito||'—'}</td><td>${a.nombre}</td><td>${badge(a.estatus)}</td></tr>`).join('')||'<tr><td colspan=4>Sin próximas actividades</td></tr>'}</tbody></table>
+      </div>
+    </div>
+
+    <div class="sec"><span class="bar"></span>Detalle de actividades</div>
+    <div class="panel"><div class="scroll">
+      <table><thead><tr><th>Etapa</th><th>Actividad</th><th>Inicio</th><th>Fin</th><th>Avance</th><th>Estatus</th></tr></thead>
+      <tbody>${d.actividades.map(a=>`<tr><td>${a.hito||'—'}</td><td>${a.nombre}</td><td>${a.inicio||'—'}</td><td>${a.fin||'—'}</td><td>${pct(a.avance)}</td><td>${badge(a.estatus)}</td></tr>`).join('')}</tbody></table>
+    </div></div>
+
+    <div class="footer">Generado automáticamente desde Google Sheets · <b>Cleangy Solar</b> — Energía limpia para tu futuro ☀️</div>
+  `;
+
+  drawHitos(d.hitos);
+  drawCurva(d.curvaS, k.avanceConstruccion);
+  drawDonut(d.estatusActividades);
+}
+
+function drawHitos(hitos){
+  const c = (a)=> a>=100?'#16a34a' : a>0?'#22c55e' : '#cbd5e1';
+  $("hitos").innerHTML = hitos.map(h=>`
+    <div class="hito">
+      <div class="top"><span class="nm">${h.nombre} <span style="color:#94a3b8;font-weight:500">· ${h.peso}%</span></span><span class="pc">${pct(h.avance)}</span></div>
+      <div class="track"><div class="fill" style="width:${Math.max(2,h.avance)}%;background:${h.avance>=100?'#16a34a':'linear-gradient(90deg,#22c55e,#16a34a)'}"></div></div>
+      <div class="meta">${h.inicio||'—'} → ${h.fin||'—'} · ${h.dias||0} días</div>
+    </div>`).join('');
+}
+
+function drawCurva(curva, real){
+  if(charts.curva) charts.curva.destroy();
+  const labels = curva.map(p=>p.fecha.slice(0,5));
+  const prog = curva.map(p=>p.programado);
+  // Punto "real hoy": ubicar el índice cuya fecha esté más cerca de hoy
+  const hoy = new Date();
+  let idx = 0, best = Infinity;
+  curva.forEach((p,i)=>{ const [dd,mm,yy]=p.fecha.split('/'); const dt=new Date(+yy,+mm-1,+dd);
+    const diff=Math.abs(dt-hoy); if(diff<best){best=diff;idx=i;} });
+  const realData = curva.map((_,i)=> i===idx ? real : null);
+  charts.curva = new Chart($("curva"),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Programado',data:prog,borderColor:'#1e5fae',backgroundColor:'rgba(30,95,174,.10)',fill:true,tension:.3,pointRadius:0,borderWidth:2.5},
+      {label:'Real',data:realData,borderColor:'#16a34a',backgroundColor:'#16a34a',pointRadius:6,pointHoverRadius:7,showLine:false}
+    ]},
+    options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Plus Jakarta Sans',weight:'600'},usePointStyle:true}},datalabels:{display:false},
+      tooltip:{callbacks:{label:(c)=>c.dataset.label+': '+(c.parsed.y==null?'—':c.parsed.y+'%')}}},
+      scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{family:'Plus Jakarta Sans'}},grid:{color:'#eef2f7'}},
+        x:{ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:8,font:{family:'Plus Jakarta Sans'}},grid:{display:false}}}}
+  });
+}
+
+function drawDonut(est){
+  if(charts.donut) charts.donut.destroy();
+  const order=[["Completado","#16a34a"],["En proceso","#f59e0b"],["Pendiente","#94a3b8"],["Cancelado","#ef4444"]];
+  const labels=[],data=[],colors=[];
+  order.forEach(([k,c])=>{ if(est[k]){labels.push(k);data.push(est[k]);colors.push(c);} });
+  const total=data.reduce((a,b)=>a+b,0);
+  charts.donut = new Chart($("donut"),{
+    type:'doughnut',
+    data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:'#fff'}]},
+    options:{maintainAspectRatio:false,cutout:'62%',
+      plugins:{legend:{position:'bottom',labels:{font:{family:'Plus Jakarta Sans',weight:'600'},usePointStyle:true,padding:14}},
+        datalabels:{color:'#fff',font:{family:'Plus Jakarta Sans',weight:'800',size:13},formatter:(v)=>v}},}
+  });
+}
+
+cargar();
+</script>
+</body>
+</html>

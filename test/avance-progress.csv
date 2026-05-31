@@ -1,0 +1,74 @@
+,,,,5/30/2026
+,,,,,Estatus,Por avanzar,Total,Días de avance,Días de cronograma,Días faltantes
+,,,,Construcción,11%,89.0%,100%,8,74,66
+,,,,Tramites CFE,0%,100.0%,100%,0,44,44
+,,,,,,,,Total,118
+,,,,Actividades,Días de cronograma,Días de avance,Avance,Por avanzar,Total,%
+,,,,Construcción,74,8,11.0%,89.0%,100.0%,11%
+Cliente,,ARTIGRAF,,Kick off,10,10,100.0%,0.0%,5.0%,5%
+Proyecto,,SISTEMA FOTOVOLTAICO + BESS,,Soportería,8,3,40.0%,9.0%,15.0%,6%
+Tamaño,,,,"Paneles FV, Inversores",42,0,0.0%,25.0%,25.0%,0%
+"Estado,Ciudad",,"TORREON, COAHUILA",,Trayectorias en Corriente Directa,18,0,0.0%,20.0%,20.0%,0%
+Project Manager,,HECTOR HERNANDEZ,,Trayectorias en Corriente Alterna,18,0,0.0%,20.0%,20.0%,0%
+Fecha de Arranque,,6/1/2026,,Interconexión,6,0,0.0%,10.0%,10.0%,0%
+,,,,Etiquetado,25,0,0.0%,5.0%,5.0%,0%
+,,,,Tramites CFE,44,0,0.0%,100.0%,100.0%,0%
+
+,,,,,,Real Base,,,Real planificada
+,,,,,,6/1/2026,8/14/2026,,12/30/1899,12/30/1899
+,,Construcción,Hito,Status,% Avance,Fecha de inicio,Fecha de conclusión,Días Base,Fecha de inicio,Fecha de conclusión,Días Planificados,Días cronograma,Comentarios
+1,5%,Kick off,Subhito,0%,0.0,6/1/2026,6/11/2026,10,12/30/1899,12/30/1899,0,10
+5%,1%,Fotos Hallazgos Previo Construccion,Actividad,Completado,100%,6/1/2026,6/2/2026,1,,,0
+,1%,Ajustes a la ingeniería a detalle,Actividad,Pendiente,0%,6/1/2026,6/2/2026,1,,,0
+,1%,Firma de planos por cliente,Actividad,Completado,100%,6/1/2026,6/2/2026,1,,,0
+,1%,Explicación del Protocolo de Seguridad,Actividad,Pendiente,0%,6/1/2026,6/2/2026,1,,,0
+,1%,Recepción de materiales,Actividad,Pendiente,0%,6/1/2026,6/11/2026,10,,,0
+3,15%,Soportería,Subhito,0%,0.0,6/4/2026,6/12/2026,8,12/30/1899,12/30/1899,0,8
+15%,5%,Armado de Soportería,Actividad,En proceso,60%,6/4/2026,6/12/2026,8,,,0
+,5%,Instalación de Soportería,Actividad,Pendiente,0%,6/4/2026,6/12/2026,8,,,0
+,5%,Verificación de sellado de perforaciones,Actividad,Pendiente,0%,6/4/2026,6/12/2026,8,,,0
+4,25%,"Paneles FV, Inversores",Subhito,0%,0.0,6/8/2026,7/20/2026,42,12/30/1899,12/30/1899,0,42
+25%,2%,Recepción de Paneles FV,Actividad,Pendiente,0%,6/8/2026,6/10/2026,2,,,0
+,18%,Instalación de Paneles FV,Actividad,Pendiente,0%,6/8/2026,6/26/2026,18,,,0
+,2%,Recepcion Inversores,Actividad,Pendiente,0%,7/13/2026,7/16/2026,3,,,0
+,3%,Instalación de Inversores,Actividad,Pendiente,0%,7/16/2026,7/20/2026,4,,,0
+5,20%,Trayectorias en Corriente Directa,Subhito,0%,0.0,6/15/2026,7/3/2026,18,12/30/1899,12/30/1899,0,18
+20%,2%,Instalación de soportes para tubería en CD,Actividad,Pendiente,0%,6/15/2026,6/25/2026,10,,,0
+,6%,Instalación de tubería en CD,Actividad,Pendiente,0%,6/15/2026,6/25/2026,10,,,0
+,2%,Corte de cableado CD,Actividad,Pendiente,0%,6/22/2026,7/3/2026,11,,,0
+,5%,Cableado en CD,Actividad,Pendiente,0%,6/22/2026,7/3/2026,11,,,0
+,3%,Conexión de string e Inversores en CD,Actividad,Pendiente,0%,6/29/2026,7/3/2026,4,,,0
+,2%,Peinado de cableado en CD,Actividad,Pendiente,0%,6/29/2026,7/3/2026,4,,,0
+6,20%,Trayectorias en Corriente Alterna,Subhito,0%,0.0,7/13/2026,7/31/2026,18,12/30/1899,12/30/1899,0,18
+20%,1%,Instalacion de base para Tablero Inversores,Actividad,Pendiente,0%,7/13/2026,7/16/2026,3,,,0
+,2%,Instalación de Tablero Inversores,Actividad,Pendiente,0%,7/13/2026,7/16/2026,3,,,0
+,2%,Instalación de soportes para tubería en CA,Actividad,Pendiente,0%,7/13/2026,7/24/2026,11,,,0
+,3%,Instalación de tubería en CA,Actividad,Pendiente,0%,7/13/2026,7/24/2026,11,,,0
+,1%,Corte de cableado CA,Actividad,Pendiente,0%,7/20/2026,7/24/2026,4,,,0
+,4%,Cableado en CA,Actividad,Pendiente,0%,7/20/2026,7/31/2026,11,,,0
+,2%,Instalación de tubería AC a Interruptor SFV,Actividad,Pendiente,0%,7/20/2026,7/31/2026,11,,,0
+,1%,Corte de cableado CA a Interruptor SFV,Actividad,Pendiente,0%,7/20/2026,7/31/2026,11,,,0
+,4%,Cableado AC a Interruptor SFV,Actividad,Pendiente,0%,7/20/2026,7/31/2026,11,,,0
+7,10%,Interconexión,Subhito,0%,0.0,8/1/2026,8/7/2026,6,12/30/1899,12/30/1899,0,6
+10%,1%,Solicitud de Permiso de Interconexión,Actividad,Pendiente,0%,8/1/2026,8/3/2026,2,,,0
+,1%,Protocolo de Funcionamiento previo,Actividad,Pendiente,0%,8/6/2026,8/7/2026,1,,,0
+,7%,Interconexión a Tablero Principal,Actividad,Pendiente,0%,8/6/2026,8/7/2026,1,,,0
+,1%,Protocolo de Funcionamiento post,Actividad,Pendiente,0%,8/6/2026,8/7/2026,1,,,0
+8,5%,Etiquetado,Subhito,0%,0.0,7/20/2026,8/14/2026,25,12/30/1899,12/30/1899,0,25
+5%,1%,Instalación de Etiquetas,Actividad,Pendiente,0%,8/7/2026,8/14/2026,7,,,0
+,1%,Trayectorías en CD. Flujo de corriente,Actividad,Pendiente,0%,8/7/2026,8/14/2026,7,,,0
+,1%,Trayectorías en CA. Flujo de corriente,Actividad,Pendiente,0%,8/7/2026,8/14/2026,7,,,0
+,1%,Tablero Inversores. Peligro y nomenclatura,Actividad,Pendiente,0%,8/7/2026,8/14/2026,7,,,0
+,1%,Interruptor SFV,Actividad,Pendiente,0%,8/7/2026,8/14/2026,7,,,0
+,1%,Tramite de UVIE Electrica CFE,Actividad,Pendiente,0%,7/20/2026,8/1/2026,12,,,0
+,,CFE,Hito,Status,,Fecha de inicio,Fecha de conclusión,,Fecha de inicio,Fecha de conclusión,Días reales,Días cronograma,Comentarios
+,,Tramites CFE,Subhito,0%,0.0,8/10/2026,10/4/2026,55,12/30/1899,12/30/1899,0,44
+100%,,Ingreso de solicitud,Actividad,Pendiente,0.0,8/10/2026,8/16/2026,6,,,0,5
+,,Validacion del sistema SC1,Actividad,Pendiente,0.0,8/17/2026,8/23/2026,6,,,0,5
+,,Resolutivo CFE,Actividad,Pendiente,0.0,8/24/2026,8/30/2026,6,,,0,5
+,,Pago del medidor,Actividad,Pendiente,0.0,8/31/2026,9/6/2026,6,,,0,5
+,,Generacion de contratos,Actividad,Pendiente,0.0,9/7/2026,9/13/2026,6,,,0,6
+,,Firmar contratos,Actividad,Pendiente,0.0,9/14/2026,9/20/2026,6,,,0,6
+,,Generacion de orden C0B,Actividad,Pendiente,0.0,9/21/2026,9/27/2026,6,,,0,6
+,,Cambio de medidor,Actividad,Pendiente,0.0,9/28/2026,10/4/2026,6,,,0,6
+,,Aumento de KVAs CFE,Actividad,Cancelado,0.0,,,6,,,0,6

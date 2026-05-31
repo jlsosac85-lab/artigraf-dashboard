@@ -1,0 +1,15 @@
+const fs = require('fs');
+const { buildKPIsFromCSV } = require('../lib/kpis.js');
+const csv = fs.readFileSync(__dirname + '/avance-sample.csv', 'utf8');
+const k = buildKPIsFromCSV(csv);
+console.log('PROYECTO:', JSON.stringify(k.proyecto, null, 0));
+console.log('KPIs:', JSON.stringify(k.kpis, null, 0));
+console.log('HITOS:');
+k.hitos.forEach(h => console.log('  ', h.nombre, '| peso', h.peso+'%', '| avance', h.avance+'%', '|', h.inicio, '->', h.fin, '|', h.dias, 'd'));
+console.log('CFE:', JSON.stringify(k.cfe));
+console.log('ESTATUS:', JSON.stringify(k.estatusActividades));
+console.log('TOTAL ACTIVIDADES:', k.actividades.length);
+console.log('PROXIMAS (', k.proximasActividades.length, '):');
+k.proximasActividades.forEach(a => console.log('  ', a.inicio, '|', a.hito, '|', a.nombre, '|', a.estatus));
+console.log('CURVA S puntos:', k.curvaS.length, '| primero', JSON.stringify(k.curvaS[0]), '| ultimo', JSON.stringify(k.curvaS[k.curvaS.length-1]));
+console.log('CURVA S muestra:', k.curvaS.filter((_,i)=>i%2===0).map(p=>p.fecha+'='+p.programado+'%').join('  '));
