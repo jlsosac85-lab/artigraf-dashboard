@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard de Obra · Artigraf Torreón</title>
+<title>Avance de Obra · Artigraf Torreón</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
@@ -11,101 +11,140 @@
 <style>
   :root{
     --green:#16a34a; --green2:#22c55e; --blue:#0b3b6f; --blue2:#1e5fae;
-    --amber:#f59e0b; --red:#ef4444; --slate:#64748b; --ink:#0f172a;
+    --amber:#f59e0b; --red:#ef4444; --slate:#64748b; --ink:#0f172a; --violet:#7c3aed;
     --bg:#eef2f7; --card:#ffffff; --line:#e3e9f0;
+    /* Paleta Cleangy Solar */
+    --cl-orange:#F39C12; --cl-teal:#1FA89A; --cl-green:#27AE60; --cl-navy:#1B3A5C;
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);
     background:var(--bg) url('watermark.png') repeat;background-size:720px auto;background-attachment:fixed}
   .wrap{max-width:1320px;margin:0 auto;padding:0 20px 48px;position:relative;z-index:1}
-  /* Cintilla de marcas */
-  .cintilla{background:rgba(255,255,255,.93);border-bottom:1px solid var(--line);padding:14px 28px 11px}
-  .cint-row{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .cintilla{position:relative;background:#fff;border-bottom:1px solid var(--line);padding:16px 28px;overflow:hidden}
+  .cintilla::before{content:"";position:absolute;inset:0;opacity:.20;
+    background:url('paneles.jpg') center/cover no-repeat}
+  .cintilla::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,.34);z-index:0}
+  .cint-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.26;z-index:0;pointer-events:none}
+  .cint-row{position:relative;z-index:1;max-width:1150px;margin:0 auto;display:flex;align-items:center;justify-content:space-evenly;gap:28px;flex-wrap:wrap}
   .cl-logo{width:auto;object-fit:contain;display:block}
-  .cl-cle{height:58px} .cl-art{height:60px} .cl-fw{height:36px}
-  .cint-cap{text-align:center;font-size:11.5px;color:var(--slate);margin-top:9px;letter-spacing:.2px}
-  .cint-cap b{color:var(--blue)}
-  /* Header */
+  .cl-cle{height:89px} .cl-art{height:90px} .cl-fw{height:53px}
   header{background:linear-gradient(135deg,#0b3b6f 0%,#0e6b46 55%,#16a34a 100%);color:#fff;border-radius:0 0 22px 22px;
-    padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 10px 30px rgba(11,59,111,.18)}
-  .brand{display:flex;align-items:center;gap:14px}
-  .logo{width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:26px}
-  header h1{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px}
-  header .sub{margin-top:3px;font-size:13px;opacity:.92;font-weight:500}
-  .btn{background:#fff;color:#0e6b46;border:none;border-radius:10px;padding:11px 16px;font-weight:700;font-size:13px;
-    cursor:pointer;display:flex;align-items:center;gap:7px;font-family:inherit;box-shadow:0 4px 12px rgba(0,0,0,.12);transition:.15s}
+    padding:20px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    position:relative;box-shadow:0 10px 30px rgba(11,59,111,.18)}
+  header h1{margin:0;font-size:26px;font-weight:800;letter-spacing:.3px;display:flex;align-items:center;gap:14px}
+  header h1 .sun{font-size:26px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
+  header .sub{margin-top:4px;font-size:13px;opacity:.92;font-weight:500}
+  .btn{position:absolute;right:24px;top:20px;background:#fff;color:#0e6b46;border:none;border-radius:10px;padding:10px 15px;
+    font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:7px;font-family:inherit;
+    box-shadow:0 4px 12px rgba(0,0,0,.12);transition:.15s}
   .btn:hover{transform:translateY(-1px)}
-  .btn:active{transform:translateY(0)}
-  .updated{font-size:11px;opacity:.85;margin-top:6px;text-align:right}
-  /* Section titles */
-  .sec{display:flex;align-items:center;gap:9px;margin:26px 2px 12px;font-size:15px;font-weight:700;color:var(--blue)}
+  .updated{position:absolute;right:24px;top:58px;font-size:11px;opacity:.85}
+  .sec{display:flex;align-items:center;gap:9px;margin:26px 2px 12px;font-size:16px;font-weight:800;color:var(--blue)}
   .sec .bar{width:4px;height:18px;border-radius:3px;background:var(--green)}
-  /* Project strip */
-  .proj{display:flex;flex-wrap:wrap;gap:10px 26px;background:rgba(255,255,255,.80);border:1px solid var(--line);border-radius:14px;
-    padding:14px 20px;margin-top:18px}
-  .proj div{font-size:13px;color:var(--slate)} .proj b{color:var(--ink)}
-  /* KPI grid */
-  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
-  .kpi{background:rgba(255,255,255,.80);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;position:relative;overflow:hidden}
+  /* Cintilla de datos del proyecto con bordes/divisores */
+  .proj{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 0;
+    background:linear-gradient(160deg,rgba(233,247,242,.92),rgba(230,240,250,.92));
+    border:1.5px solid var(--cl-teal);border-radius:14px;padding:14px 10px;margin-top:18px;overflow:hidden}
+  .proj div{font-size:13px;color:var(--slate);padding:2px 22px} .proj b{color:var(--ink)}
+  .proj div:not(:last-child){border-right:1.5px solid rgba(31,168,154,.35)}
+  /* KPIs principales */
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .kpi{border:1px solid var(--line);border-radius:14px;padding:22px 16px 18px;position:relative;overflow:hidden;text-align:center;
+    background:linear-gradient(160deg,#ffffff 0%,#e9f9ef 100%);box-shadow:0 2px 8px rgba(15,23,42,.05)}
   .kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--green)}
-  .kpi .lab{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--slate);font-weight:700}
-  .kpi .val{font-size:30px;font-weight:800;margin:8px 0 2px;line-height:1}
-  .kpi .hint{font-size:11.5px;color:var(--slate);font-weight:500}
+  .kpi .lab{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--slate);font-weight:700}
+  .kpi .val{font-size:38px;font-weight:800;margin:10px 0 4px;line-height:1}
+  .kpi .hint{font-size:12px;color:var(--slate);font-weight:500}
+  .kpi.k-blue{background:linear-gradient(160deg,#ffffff 0%,#e6f0fd 100%)}
+  .kpi.k-amber{background:linear-gradient(160deg,#ffffff 0%,#fef4e3 100%)}
+  .kpi.k-red{background:linear-gradient(160deg,#ffffff 0%,#fde9e9 100%)}
+  .kpi.k-slate{background:linear-gradient(160deg,#ffffff 0%,#eaeff5 100%)}
+  .kpi.k-violet{background:linear-gradient(160deg,#ffffff 0%,#efeafe 100%)}
   .kpi.k-blue::before{background:var(--blue2)} .kpi.k-amber::before{background:var(--amber)}
   .kpi.k-red::before{background:var(--red)} .kpi.k-slate::before{background:var(--slate)}
-  .v-green{color:var(--green)} .v-blue{color:var(--blue2)} .v-amber{color:var(--amber)} .v-red{color:var(--red)} .v-ink{color:var(--ink)}
-  /* Cards / charts */
+  .kpi.k-violet::before{background:var(--violet)}
+  .v-green{color:var(--green)} .v-blue{color:var(--blue2)} .v-amber{color:var(--amber)}
+  .v-red{color:var(--red)} .v-ink{color:var(--ink)} .v-violet{color:var(--violet)} .v-teal{color:var(--cl-teal)} .v-slate{color:var(--slate)}
+  /* KPIs por etapa (9) */
+  .etapas{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .etapa{border:1px solid var(--line);border-radius:12px;padding:15px 12px;text-align:center;position:relative;overflow:hidden;
+    background:linear-gradient(160deg,#ffffff 0%,#eafaf4 100%);box-shadow:0 1px 5px rgba(15,23,42,.04)}
+  .etapa::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cl-teal),var(--cl-green))}
+  .etapa .en{font-size:11px;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:.3px}
+  .etapa .ev{font-size:27px;font-weight:800;margin:7px 0 2px;line-height:1}
+  .etapa .ew{font-size:10.5px;color:var(--slate)}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .grid3{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
-  .panel{background:rgba(255,255,255,.80);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:0 1px 3px rgba(15,23,42,.04)}
-  .panel h3{margin:0 0 14px;font-size:14px;font-weight:700;color:var(--ink)}
+  .grid-site{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-top:18px}
+  /* Paneles con paleta Cleangy */
+  .panel{background:linear-gradient(150deg,rgba(233,247,242,.90) 0%,rgba(231,241,251,.90) 100%);
+    border:1px solid #d4e6df;border-radius:16px;padding:18px 20px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  .panel h3{margin:0;font-size:15px;font-weight:800;color:var(--cl-navy);text-align:center}
+  .head-row{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:14px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .filters select,.filters input{font-family:inherit;font-size:12px;padding:6px 9px;border:1px solid var(--line);
+    border-radius:8px;background:#fff;color:var(--ink);outline:none;max-width:170px}
+  .filters input{min-width:150px}
+  .filters select:focus,.filters input:focus{border-color:var(--cl-teal)}
   .chart-box{position:relative;height:300px}
   .chart-box.tall{height:340px}
-  /* Hito bars */
   .hito{margin-bottom:13px}
   .hito .top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}
   .hito .nm{font-weight:600} .hito .pc{font-weight:700}
-  .track{height:9px;background:#eef2f7;border-radius:6px;overflow:hidden}
-  .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--green2),var(--green));transition:width .6s}
+  .track{height:9px;background:rgba(255,255,255,.7);border-radius:6px;overflow:hidden}
+  .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--cl-teal),var(--cl-green));transition:width .6s}
   .hito .meta{font-size:10.5px;color:var(--slate);margin-top:3px}
-  /* Tables */
-  table{width:100%;border-collapse:collapse;font-size:12.5px}
-  th{text-align:left;color:var(--slate);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;
-    padding:8px 10px;border-bottom:2px solid var(--line)}
-  td{padding:9px 10px;border-bottom:1px solid #f1f5f9}
-  tr:hover td{background:rgba(248,250,252,.55)}
+  .planta{width:100%;height:320px;object-fit:cover;border-radius:12px;display:block}
+  .planta-ph{height:320px;border:2px dashed var(--cl-teal);border-radius:12px;display:flex;align-items:center;justify-content:center;
+    color:var(--slate);font-size:13px;text-align:center;padding:20px;background:linear-gradient(160deg,#ffffff,#eaf6f1)}
+  .wx-now{display:flex;align-items:center;gap:14px;margin-bottom:14px;background:linear-gradient(135deg,#e8f1fd,#e3f3ec);
+    border:1px solid #d4e6df;border-radius:12px;padding:12px 16px}
+  .wx-now .ic{font-size:44px;line-height:1}
+  .wx-now .t{font-size:34px;font-weight:800;line-height:1;color:var(--cl-navy)}
+  .wx-now .meta{font-size:12px;color:var(--slate);margin-top:3px}
+  .wx-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+  .wx-day{background:linear-gradient(160deg,#ffffff,#e9f4ef);border:1px solid #d4e6df;border-radius:10px;padding:9px 3px}
+  .wx-day .d{font-size:10.5px;font-weight:700;color:var(--slate);text-transform:capitalize}
+  .wx-day .di{font-size:22px;margin:4px 0}
+  .wx-day .mx{font-size:13px;font-weight:800;color:var(--cl-navy)}
+  .wx-day .mn{font-size:11px;color:var(--slate)}
+  .wx-day .pp{font-size:9.5px;color:var(--cl-teal);margin-top:2px}
+  /* Tablas con paleta Cleangy */
+  table{width:100%;border-collapse:collapse;font-size:12.5px;background:transparent}
+  th{text-align:left;color:#fff;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;
+    padding:10px;background:linear-gradient(90deg,var(--cl-navy),var(--cl-teal) 70%,var(--cl-green))}
+  td{padding:9px 10px;border-bottom:1px solid rgba(31,168,154,.15)}
+  tbody tr:nth-child(even) td{background:rgba(31,168,154,.07)}
+  tr:hover td{background:rgba(31,168,154,.16)}
+  thead tr th:first-child{border-radius:8px 0 0 0} thead tr th:last-child{border-radius:0 8px 0 0}
   .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:700}
   .b-pend{background:#eef2f7;color:#475569} .b-proc{background:#fef3c7;color:#b45309}
   .b-comp{background:#dcfce7;color:#15803d} .b-canc{background:#fee2e2;color:#b91c1c}
-  .scroll{max-height:430px;overflow:auto}
+  .scroll{max-height:430px;overflow:auto;border-radius:10px}
+  .empty{padding:18px;text-align:center;color:var(--slate);font-size:12.5px}
   .footer{margin-top:30px;text-align:center;color:var(--slate);font-size:12px}
   .loading{padding:60px;text-align:center;color:var(--slate)}
   .errbox{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:12px;padding:18px;margin-top:18px;font-size:13px}
-  @media(max-width:1000px){.kpis{grid-template-columns:repeat(3,1fr)}.grid2,.grid3{grid-template-columns:1fr}}
-  @media(max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}header{flex-direction:column;align-items:flex-start}}
+  @media(max-width:1000px){.grid2,.grid3,.grid-site{grid-template-columns:1fr}}
+  @media(max-width:640px){.kpis,.etapas{grid-template-columns:repeat(2,1fr)}.btn,.updated{position:static;margin-top:10px}}
 </style>
 </head>
 <body>
 <div class="cintilla">
+  <video class="cint-video" autoplay muted loop playsinline preload="auto" onerror="this.style.display='none'">
+    <source src="paneles.mp4" type="video/mp4" />
+  </video>
   <div class="cint-row">
     <img class="cl-logo cl-cle" src="logo-cleangy.png" alt="Cleangy Solar" />
     <img class="cl-logo cl-art" src="logo-artigraf.png" alt="Artigraf" />
     <img class="cl-logo cl-fw" src="logo-firmahw.png" alt="Firma HW" />
   </div>
-  <div class="cint-cap">Colaboración de <b>Firma HW</b> &times; <b>Cleangy Solar</b> &nbsp;·&nbsp; para el cliente <b>Artigraf</b></div>
 </div>
 <header>
-  <div class="brand">
-    <div class="logo">☀️</div>
-    <div>
-      <h1>Dashboard de Avance de Obra</h1>
-      <div class="sub" id="hsub">Artigraf · Planta Torreón — cargando…</div>
-    </div>
-  </div>
-  <div>
-    <button class="btn" onclick="cargar()">⟳ Actualizar</button>
-    <div class="updated" id="updated"></div>
-  </div>
+  <h1><span class="sun">☀️</span> Avance de Obra <span class="sun">☀️</span></h1>
+  <div class="sub" id="hsub">Artigraf · Planta Torreon — cargando…</div>
+  <button class="btn" onclick="cargar()">⟳ Actualizar</button>
+  <div class="updated" id="updated"></div>
 </header>
 
 <div class="wrap">
@@ -121,6 +160,9 @@ function badge(s){
   const m={"Completado":"b-comp","En proceso":"b-proc","Pendiente":"b-pend","Cancelado":"b-canc"};
   return `<span class="badge ${m[s]||'b-pend'}">${s}</span>`;
 }
+function esc(s){ return (s==null?'':String(s)).replace(/"/g,'&quot;'); }
+function hitoState(a){ return a>=100?'Completado': a>0?'En proceso':'Pendiente'; }
+function valColor(a){ return a>=100?'v-green': a>0?'v-teal':'v-slate'; }
 
 async function cargar(){
   if(window.__PREVIEW__){ render(window.__PREVIEW__); return; }
@@ -131,7 +173,6 @@ async function cargar(){
     if(!r.ok){ throw new Error((await r.json()).detalle || ('HTTP '+r.status)); }
     d = await r.json();
   }catch(e){
-    // Fallback para previsualización local
     try{ d = await (await fetch('./sample-data.json?t='+Date.now())).json(); }
     catch(_){ $("app").innerHTML = `<div class="errbox"><b>No se pudieron cargar los datos.</b><br>${e.message}</div>`; return; }
   }
@@ -147,12 +188,19 @@ function render(d){
   const desvTxt = (desvPos?"+":"") + k.diasDesviacion;
   const desvLab = desvPos ? "días de adelanto" : "días de atraso";
 
+  const hitosUnicos = [...new Set(d.actividades.map(a=>a.hito).filter(Boolean))];
+  const estUnicos   = [...new Set(d.actividades.map(a=>a.estatus))];
+  const optHitos = `<option value="all">Todas las etapas</option>` + hitosUnicos.map(h=>`<option value="${esc(h)}">${h}</option>`).join('');
+  const optEst   = `<option value="all">Todos los estatus</option>` + estUnicos.map(s=>`<option value="${esc(s)}">${s}</option>`).join('');
+  const optEstHito = `<option value="all">Todos</option><option>Pendiente</option><option>En proceso</option><option>Completado</option>`;
+
   $("app").innerHTML = `
     <div class="proj">
       <div>Cliente: <b>${p.cliente}</b></div>
       <div>Project Manager: <b>${p.pm}</b></div>
       <div>Arranque: <b>${p.fechaArranque||'—'}</b></div>
       <div>Fin construcción (prog.): <b>${p.fechaFinConstruccion||'—'}</b></div>
+      <div>Fin de proyecto / CFE (prog.): <b>${p.fechaFinProyecto||'—'}</b></div>
       <div>Duración total: <b>${k.diasTotal} días</b></div>
     </div>
 
@@ -163,28 +211,64 @@ function render(d){
       <div class="kpi k-amber"><div class="lab">Trámites CFE</div><div class="val v-amber">${pct(k.avanceCFE)}</div><div class="hint">${k.diasCFE} días de cronograma</div></div>
       <div class="kpi ${desvPos?'':'k-red'}"><div class="lab">Desviación</div><div class="val ${desvPos?'v-green':'v-red'}">${desvTxt}</div><div class="hint">${desvLab}</div></div>
       <div class="kpi k-slate"><div class="lab">Días faltantes obra</div><div class="val v-ink">${k.diasFaltantesConstr ?? '—'}</div><div class="hint">para terminar construcción</div></div>
-      <div class="kpi"><div class="lab">Actividades</div><div class="val v-ink">${k.completadas}/${k.totalActividades}</div><div class="hint">completadas</div></div>
+      <div class="kpi k-violet"><div class="lab">Actividades</div><div class="val v-violet">${k.completadas}/${k.totalActividades}</div><div class="hint">completadas</div></div>
+    </div>
+
+    <div class="sec"><span class="bar"></span>Sitio del proyecto y clima</div>
+    <div class="grid-site">
+      <div class="panel">
+        <div class="head-row"><h3>Sitio del proyecto · Planta Torreón</h3></div>
+        <img class="planta" src="planta.jpg" alt="Planta Artigraf Torreón"
+          onerror="this.style.display='none';var ph=this.parentNode.querySelector('.planta-ph');if(ph)ph.style.display='flex';" />
+        <div class="planta-ph" style="display:none">Agrega la foto en <b>&nbsp;public/planta.jpg</b>&nbsp; y vuelve a publicar.</div>
+      </div>
+      <div class="panel">
+        <div class="head-row"><h3>Clima en Torreón, Coahuila</h3></div>
+        <div id="weather"><div class="empty">Cargando clima…</div></div>
+      </div>
     </div>
 
     <div class="sec"><span class="bar"></span>Avance del proyecto</div>
     <div class="grid3">
-      <div class="panel"><h3>Curva S — avance acumulado programado vs real</h3><div class="chart-box tall"><canvas id="curva"></canvas></div></div>
-      <div class="panel"><h3>Estatus de actividades</h3><div class="chart-box tall"><canvas id="donut"></canvas></div></div>
+      <div class="panel"><div class="head-row"><h3>Curva S — avance acumulado programado vs real</h3></div><div class="chart-box tall"><canvas id="curva"></canvas></div></div>
+      <div class="panel"><div class="head-row"><h3>Estatus de actividades</h3></div><div class="chart-box tall"><canvas id="donut"></canvas></div></div>
     </div>
 
     <div class="grid2" style="margin-top:16px">
-      <div class="panel"><h3>Avance por hito / etapa</h3><div id="hitos"></div></div>
-      <div class="panel"><h3>Próximas actividades</h3>
+      <div class="panel">
+        <div class="head-row"><h3>Avance por hito / etapa</h3>
+          <div class="filters"><select id="f-hito">${optEstHito}</select></div>
+        </div>
+        <div id="hitos"></div>
+      </div>
+      <div class="panel">
+        <div class="head-row"><h3>Próximas actividades</h3>
+          <div class="filters">
+            <select id="f-prox-hito">${optHitos}</select>
+            <input id="f-prox-q" type="text" placeholder="Buscar actividad…" />
+          </div>
+        </div>
         <table><thead><tr><th>Inicio</th><th>Etapa</th><th>Actividad</th><th>Estatus</th></tr></thead>
-        <tbody>${d.proximasActividades.map(a=>`<tr><td>${a.inicio||'—'}</td><td>${a.hito||'—'}</td><td>${a.nombre}</td><td>${badge(a.estatus)}</td></tr>`).join('')||'<tr><td colspan=4>Sin próximas actividades</td></tr>'}</tbody></table>
+        <tbody id="prox-body">${d.proximasActividades.map(a=>`<tr data-hito="${esc(a.hito||'')}"><td>${a.inicio||'—'}</td><td>${a.hito||'—'}</td><td>${a.nombre}</td><td>${badge(a.estatus)}</td></tr>`).join('')||'<tr><td colspan=4 class="empty">Sin próximas actividades</td></tr>'}</tbody></table>
+        <div class="empty" id="prox-empty" style="display:none">Sin resultados con ese filtro</div>
       </div>
     </div>
 
     <div class="sec"><span class="bar"></span>Detalle de actividades</div>
-    <div class="panel"><div class="scroll">
-      <table><thead><tr><th>Etapa</th><th>Actividad</th><th>Inicio</th><th>Fin</th><th>Avance</th><th>Estatus</th></tr></thead>
-      <tbody>${d.actividades.map(a=>`<tr><td>${a.hito||'—'}</td><td>${a.nombre}</td><td>${a.inicio||'—'}</td><td>${a.fin||'—'}</td><td>${pct(a.avance)}</td><td>${badge(a.estatus)}</td></tr>`).join('')}</tbody></table>
-    </div></div>
+    <div class="panel">
+      <div class="head-row"><h3>Todas las actividades</h3>
+        <div class="filters">
+          <select id="f-det-hito">${optHitos}</select>
+          <select id="f-det-est">${optEst}</select>
+          <input id="f-det-q" type="text" placeholder="Buscar actividad…" />
+        </div>
+      </div>
+      <div class="scroll">
+        <table><thead><tr><th>Etapa</th><th>Actividad</th><th>Inicio</th><th>Fin</th><th>Avance</th><th>Estatus</th></tr></thead>
+        <tbody id="det-body">${d.actividades.map(a=>`<tr data-hito="${esc(a.hito||'')}" data-est="${esc(a.estatus)}"><td>${a.hito||'—'}</td><td>${a.nombre}</td><td>${a.inicio||'—'}</td><td>${a.fin||'—'}</td><td>${pct(a.avance)}</td><td>${badge(a.estatus)}</td></tr>`).join('')}</tbody></table>
+      </div>
+      <div class="empty" id="det-empty" style="display:none">Sin resultados con ese filtro</div>
+    </div>
 
     <div class="footer">Generado automáticamente desde Google Sheets · <b>Cleangy Solar</b> — Energía limpia para tu futuro ☀️</div>
   `;
@@ -192,14 +276,84 @@ function render(d){
   drawHitos(d.hitos);
   drawCurva(d.curvaS, k.avanceConstruccion);
   drawDonut(d.estatusActividades);
+  loadWeather();
+
+  $("f-hito").onchange = applyHitoFilter;
+  $("f-prox-hito").onchange = applyProxFilter;
+  $("f-prox-q").oninput = applyProxFilter;
+  $("f-det-hito").onchange = applyDetFilter;
+  $("f-det-est").onchange = applyDetFilter;
+  $("f-det-q").oninput = applyDetFilter;
+}
+
+function weatherInfo(c){
+  if(c===0) return ['☀️','Despejado'];
+  if(c<=2) return ['🌤️','Poco nublado'];
+  if(c===3) return ['☁️','Nublado'];
+  if(c<=48) return ['🌫️','Niebla'];
+  if(c<=57) return ['🌦️','Llovizna'];
+  if(c<=67) return ['🌧️','Lluvia'];
+  if(c<=77) return ['🌨️','Nieve'];
+  if(c<=82) return ['🌧️','Chubascos'];
+  if(c<=86) return ['🌨️','Nieve'];
+  return ['⛈️','Tormenta'];
+}
+async function loadWeather(){
+  const el=$("weather"); if(!el) return;
+  try{
+    const u='https://api.open-meteo.com/v1/forecast?latitude=25.5428&longitude=-103.4068&current=temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=7';
+    const w=await (await fetch(u)).json();
+    const cur=w.current, dy=w.daily;
+    const [ci,ct]=weatherInfo(cur.weather_code);
+    const dias=dy.time.map((t,i)=>{
+      const d=new Date(t+'T12:00:00');
+      const wd=d.toLocaleDateString('es-MX',{weekday:'short'}).replace('.','');
+      const [ic]=weatherInfo(dy.weather_code[i]);
+      return `<div class="wx-day"><div class="d">${wd}</div><div class="di">${ic}</div><div class="mx">${Math.round(dy.temperature_2m_max[i])}°</div><div class="mn">${Math.round(dy.temperature_2m_min[i])}°</div><div class="pp">💧${dy.precipitation_probability_max[i]??0}%</div></div>`;
+    }).join('');
+    el.innerHTML=`
+      <div class="wx-now">
+        <div class="ic">${ci}</div>
+        <div><div class="t">${Math.round(cur.temperature_2m)}°C</div>
+        <div class="meta">${ct} · Humedad ${cur.relative_humidity_2m}% · Viento ${Math.round(cur.wind_speed_10m)} km/h</div></div>
+      </div>
+      <div class="wx-days">${dias}</div>`;
+  }catch(e){ el.innerHTML='<div class="empty">No se pudo cargar el clima.</div>'; }
+}
+
+function applyHitoFilter(){
+  const v=$("f-hito").value;
+  document.querySelectorAll('#hitos .hito').forEach(el=>{
+    el.style.display = (v==='all'||el.dataset.state===v)?'':'none';
+  });
+}
+function applyProxFilter(){
+  const h=$("f-prox-hito").value, q=$("f-prox-q").value.toLowerCase().trim();
+  let vis=0;
+  document.querySelectorAll('#prox-body tr').forEach(tr=>{
+    const okH = h==='all' || tr.dataset.hito===h;
+    const okQ = !q || tr.textContent.toLowerCase().includes(q);
+    const show = okH&&okQ; tr.style.display = show?'':'none'; if(show) vis++;
+  });
+  $("prox-empty").style.display = vis?'none':'';
+}
+function applyDetFilter(){
+  const h=$("f-det-hito").value, e=$("f-det-est").value, q=$("f-det-q").value.toLowerCase().trim();
+  let vis=0;
+  document.querySelectorAll('#det-body tr').forEach(tr=>{
+    const okH = h==='all' || tr.dataset.hito===h;
+    const okE = e==='all' || tr.dataset.est===e;
+    const okQ = !q || tr.textContent.toLowerCase().includes(q);
+    const show = okH&&okE&&okQ; tr.style.display = show?'':'none'; if(show) vis++;
+  });
+  $("det-empty").style.display = vis?'none':'';
 }
 
 function drawHitos(hitos){
-  const c = (a)=> a>=100?'#16a34a' : a>0?'#22c55e' : '#cbd5e1';
   $("hitos").innerHTML = hitos.map(h=>`
-    <div class="hito">
+    <div class="hito" data-state="${hitoState(h.avance)}">
       <div class="top"><span class="nm">${h.nombre} <span style="color:#94a3b8;font-weight:500">· ${h.peso}%</span></span><span class="pc">${pct(h.avance)}</span></div>
-      <div class="track"><div class="fill" style="width:${Math.max(2,h.avance)}%;background:${h.avance>=100?'#16a34a':'linear-gradient(90deg,#22c55e,#16a34a)'}"></div></div>
+      <div class="track"><div class="fill" style="width:${Math.max(2,h.avance)}%"></div></div>
       <div class="meta">${h.inicio||'—'} → ${h.fin||'—'} · ${h.dias||0} días</div>
     </div>`).join('');
 }
@@ -208,7 +362,6 @@ function drawCurva(curva, real){
   if(charts.curva) charts.curva.destroy();
   const labels = curva.map(p=>p.fecha.slice(0,5));
   const prog = curva.map(p=>p.programado);
-  // Punto "real hoy": ubicar el índice cuya fecha esté más cerca de hoy
   const hoy = new Date();
   let idx = 0, best = Infinity;
   curva.forEach((p,i)=>{ const [dd,mm,yy]=p.fecha.split('/'); const dt=new Date(+yy,+mm-1,+dd);
@@ -217,22 +370,21 @@ function drawCurva(curva, real){
   charts.curva = new Chart($("curva"),{
     type:'line',
     data:{labels,datasets:[
-      {label:'Programado',data:prog,borderColor:'#1e5fae',backgroundColor:'rgba(30,95,174,.10)',fill:true,tension:.3,pointRadius:0,borderWidth:2.5},
-      {label:'Real',data:realData,borderColor:'#16a34a',backgroundColor:'#16a34a',pointRadius:6,pointHoverRadius:7,showLine:false}
+      {label:'Programado',data:prog,borderColor:'#1B3A5C',backgroundColor:'rgba(31,168,154,.12)',fill:true,tension:.3,pointRadius:0,borderWidth:2.5},
+      {label:'Real',data:realData,borderColor:'#27AE60',backgroundColor:'#27AE60',pointRadius:6,pointHoverRadius:7,showLine:false}
     ]},
     options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Plus Jakarta Sans',weight:'600'},usePointStyle:true}},datalabels:{display:false},
       tooltip:{callbacks:{label:(c)=>c.dataset.label+': '+(c.parsed.y==null?'—':c.parsed.y+'%')}}},
-      scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{family:'Plus Jakarta Sans'}},grid:{color:'#eef2f7'}},
+      scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{family:'Plus Jakarta Sans'}},grid:{color:'rgba(31,168,154,.12)'}},
         x:{ticks:{maxRotation:0,autoSkip:true,maxTicksLimit:8,font:{family:'Plus Jakarta Sans'}},grid:{display:false}}}}
   });
 }
 
 function drawDonut(est){
   if(charts.donut) charts.donut.destroy();
-  const order=[["Completado","#16a34a"],["En proceso","#f59e0b"],["Pendiente","#94a3b8"],["Cancelado","#ef4444"]];
+  const order=[["Completado","#27AE60"],["En proceso","#F39C12"],["Pendiente","#1FA89A"],["Cancelado","#ef4444"]];
   const labels=[],data=[],colors=[];
   order.forEach(([k,c])=>{ if(est[k]){labels.push(k);data.push(est[k]);colors.push(c);} });
-  const total=data.reduce((a,b)=>a+b,0);
   charts.donut = new Chart($("donut"),{
     type:'doughnut',
     data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:'#fff'}]},
