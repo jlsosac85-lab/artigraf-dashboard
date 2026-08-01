@@ -146,6 +146,13 @@
     cursor:pointer;user-select:none;padding:0 18px;opacity:.75}
   #gal-lb .lb-nav:hover{opacity:1}
 
+  
+  /* --- Orden por columna --- */
+  th.sortable{cursor:pointer;user-select:none;white-space:nowrap}
+  th.sortable:hover{filter:brightness(1.12)}
+  th.sortable .arr{font-size:10px;margin-left:5px;opacity:.45}
+  th.sortable.s-on .arr{opacity:1}
+
   </style>
 </head>
 <body>
@@ -226,6 +233,47 @@ function galShow(){
   document.getElementById('gal-lb-img').src = galSrc(w, w.fotos[galIdx]);
   document.getElementById('gal-lb-cap').textContent = 'Semana del ' + w.label + ' · foto ' + (galIdx+1) + ' de ' + w.fotos.length;
 }
+
+
+// ===== Ordenamiento de tablas por columna =====
+const RE_FECHA=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+function sortVal(td){
+  const t=(td.textContent||'').trim();
+  if(t==='—'||t==='') return null;
+  const m=t.match(RE_FECHA);
+  if(m) return new Date(+m[3], +m[2]-1, +m[1]).getTime();
+  const n=parseFloat(t.replace('%','').replace(/,/g,''));
+  if(!isNaN(n) && /^[\d.,]+%?$/.test(t)) return n;
+  return t.toLowerCase();
+}
+function makeSortable(tbodyId){
+  const tbody=document.getElementById(tbodyId); if(!tbody) return;
+  const table=tbody.closest('table');
+  const ths=table.querySelectorAll('thead th');
+  ths.forEach((th,ci)=>{
+    th.classList.add('sortable');
+    if(!th.querySelector('.arr')){ const s=document.createElement('span'); s.className='arr'; s.textContent='↕'; th.appendChild(s); }
+    th.onclick=()=>{
+      const dir = th.dataset.dir==='asc' ? 'desc' : 'asc';
+      ths.forEach(o=>{ o.dataset.dir=''; o.classList.remove('s-on'); const a=o.querySelector('.arr'); if(a) a.textContent='↕'; });
+      th.dataset.dir=dir; th.classList.add('s-on');
+      th.querySelector('.arr').textContent = dir==='asc'?'▲':'▼';
+      const rows=[...tbody.querySelectorAll('tr')].filter(r=>!r.querySelector('td[colspan]'));
+      rows.sort((a,b)=>{
+        const va=sortVal(a.cells[ci]), vb=sortVal(b.cells[ci]);
+        if(va===null && vb===null) return 0;
+        if(va===null) return 1;              // vacíos siempre al final
+        if(vb===null) return -1;
+        let c;
+        if(typeof va==='string' || typeof vb==='string') c=String(va).localeCompare(String(vb),'es');
+        else c=va-vb;
+        return dir==='asc'?c:-c;
+      });
+      rows.forEach(r=>tbody.appendChild(r));
+    };
+  });
+}
+function initSort(){ makeSortable('prox-body'); makeSortable('det-body'); }
 
 async function cargar(){
   if(window.__PREVIEW__){ render(window.__PREVIEW__); return; }
@@ -346,6 +394,7 @@ function render(d){
 
   drawHitos(d.hitos);
   drawGaleria();
+  initSort();
   drawCurva(d.curvaS, k.avanceConstruccion);
   drawDonut(d.estatusActividades);
   loadWeather();
