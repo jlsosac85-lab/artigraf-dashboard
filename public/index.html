@@ -127,7 +127,26 @@
   .errbox{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:12px;padding:18px;margin-top:18px;font-size:13px}
   @media(max-width:1000px){.grid2,.grid3,.grid-site{grid-template-columns:1fr}}
   @media(max-width:640px){.kpis,.etapas{grid-template-columns:repeat(2,1fr)}.btn,.updated{position:static;margin-top:10px}}
-</style>
+
+  /* --- Galería de avances --- */
+  .gal-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;justify-content:center}
+  .gal-tab{border:1.5px solid var(--cl-navy,#1B3A5C);background:#fff;color:var(--cl-navy,#1B3A5C);
+    font:700 13px 'Plus Jakarta Sans',sans-serif;padding:7px 14px;border-radius:999px;cursor:pointer;transition:.15s}
+  .gal-tab.on{background:var(--cl-navy,#1B3A5C);color:#fff}
+  .gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .gal-grid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;cursor:zoom-in;
+    box-shadow:0 2px 8px rgba(27,58,92,.18);transition:transform .15s}
+  .gal-grid img:hover{transform:scale(1.03)}
+  .gal-count{text-align:center;color:#64748b;font-size:12.5px;margin-top:10px}
+  #gal-lb{position:fixed;inset:0;background:rgba(10,20,35,.92);display:none;align-items:center;
+    justify-content:center;z-index:999;cursor:zoom-out;flex-direction:column;gap:10px}
+  #gal-lb img{max-width:92vw;max-height:84vh;border-radius:10px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+  #gal-lb .lb-cap{color:#cbd5e1;font-size:13px}
+  #gal-lb .lb-nav{position:fixed;top:50%;transform:translateY(-50%);font-size:44px;color:#fff;
+    cursor:pointer;user-select:none;padding:0 18px;opacity:.75}
+  #gal-lb .lb-nav:hover{opacity:1}
+
+  </style>
 </head>
 <body>
 <div class="cintilla">
@@ -163,6 +182,50 @@ function badge(s){
 function esc(s){ return (s==null?'':String(s)).replace(/"/g,'&quot;'); }
 function hitoState(a){ return a>=100?'Completado': a>0?'En proceso':'Pendiente'; }
 function valColor(a){ return a>=100?'v-green': a>0?'v-teal':'v-slate'; }
+
+
+// ===== Galería de avances (fotos de los reportes semanales, en public/avances/) =====
+const GALERIA = [{"id": "sem1", "label": "29 jun – 3 jul", "fotos": ["sem1-01.jpg", "sem1-02.jpg", "sem1-03.jpg", "sem1-04.jpg", "sem1-05.jpg", "sem1-06.jpg", "sem1-07.jpg", "sem1-08.jpg"]}, {"id": "sem2", "label": "6 – 11 jul", "fotos": ["sem2-01.jpg", "sem2-02.jpg", "sem2-03.jpg", "sem2-04.jpg", "sem2-05.jpg", "sem2-06.jpg", "sem2-07.jpg", "sem2-08.jpg", "sem2-09.jpg"]}, {"id": "sem3", "label": "13 – 18 jul", "fotos": ["sem3-01.jpg", "sem3-02.jpg", "sem3-03.jpg", "sem3-04.jpg", "sem3-05.jpg", "sem3-06.jpg", "sem3-07.jpg", "sem3-08.jpg", "sem3-09.jpg", "sem3-10.jpg"]}, {"id": "sem4", "label": "20 – 25 jul", "fotos": ["sem4-01.jpg", "sem4-02.jpg", "sem4-03.jpg", "sem4-04.jpg", "sem4-05.jpg", "sem4-06.jpg", "sem4-07.jpg", "sem4-08.jpg", "sem4-09.jpg", "sem4-10.jpg", "sem4-11.jpg", "sem4-12.jpg", "sem4-13.jpg", "sem4-14.jpg", "sem4-15.jpg", "sem4-16.jpg", "sem4-17.jpg", "sem4-18.jpg", "sem4-19.jpg", "sem4-20.jpg", "sem4-21.jpg", "sem4-22.jpg", "sem4-23.jpg", "sem4-24.jpg", "sem4-25.jpg", "sem4-26.jpg", "sem4-27.jpg", "sem4-28.jpg", "sem4-29.jpg", "sem4-30.jpg", "sem4-31.jpg", "sem4-32.jpg", "sem4-33.jpg"]}, {"id": "sem5", "label": "27 – 30 jul", "fotos": ["sem5-01.jpg", "sem5-02.jpg", "sem5-03.jpg", "sem5-04.jpg", "sem5-05.jpg", "sem5-06.jpg"]}];
+let galWeek = GALERIA.length - 1, galIdx = 0;
+function galSrc(w,f){ return 'avances/' + w.id + '/' + f; }
+function drawGaleria(){
+  const tabs = document.getElementById('gal-tabs'); if(!tabs) return;
+  tabs.innerHTML = GALERIA.map((w,i)=>`<button class="gal-tab ${i===galWeek?'on':''}" onclick="galSel(${i})">${w.label}</button>`).join('');
+  const w = GALERIA[galWeek];
+  document.getElementById('gal-grid').innerHTML =
+    w.fotos.map((f,i)=>`<img loading="lazy" src="${galSrc(w,f)}" alt="Avance ${w.label}" onclick="galOpen(${i})">`).join('');
+  document.getElementById('gal-count').textContent = w.fotos.length + ' fotografías · Semana del ' + w.label;
+}
+function galSel(i){ galWeek = i; drawGaleria(); }
+function galOpen(i){
+  galIdx = i;
+  let lb = document.getElementById('gal-lb');
+  if(!lb){
+    lb = document.createElement('div'); lb.id = 'gal-lb';
+    lb.innerHTML = `<span class="lb-nav" style="left:0" onclick="event.stopPropagation();galMove(-1)">‹</span>
+      <img id="gal-lb-img"><div class="lb-cap" id="gal-lb-cap"></div>
+      <span class="lb-nav" style="right:0" onclick="event.stopPropagation();galMove(1)">›</span>`;
+    lb.onclick = ()=>{ lb.style.display='none'; };
+    document.body.appendChild(lb);
+    document.addEventListener('keydown', e=>{
+      if(lb.style.display!=='flex') return;
+      if(e.key==='Escape') lb.style.display='none';
+      if(e.key==='ArrowLeft') galMove(-1);
+      if(e.key==='ArrowRight') galMove(1);
+    });
+  }
+  galShow(); lb.style.display='flex';
+}
+function galMove(d){
+  const w = GALERIA[galWeek];
+  galIdx = (galIdx + d + w.fotos.length) % w.fotos.length;
+  galShow();
+}
+function galShow(){
+  const w = GALERIA[galWeek];
+  document.getElementById('gal-lb-img').src = galSrc(w, w.fotos[galIdx]);
+  document.getElementById('gal-lb-cap').textContent = 'Semana del ' + w.label + ' · foto ' + (galIdx+1) + ' de ' + w.fotos.length;
+}
 
 async function cargar(){
   if(window.__PREVIEW__){ render(window.__PREVIEW__); return; }
@@ -254,6 +317,14 @@ function render(d){
       </div>
     </div>
 
+    
+    <div class="sec"><span class="bar"></span>Evidencia fotográfica de avances</div>
+    <div class="panel">
+      <div class="gal-tabs" id="gal-tabs"></div>
+      <div class="gal-grid" id="gal-grid"></div>
+      <div class="gal-count" id="gal-count"></div>
+    </div>
+
     <div class="sec"><span class="bar"></span>Detalle de actividades</div>
     <div class="panel">
       <div class="head-row"><h3>Todas las actividades</h3>
@@ -274,6 +345,7 @@ function render(d){
   `;
 
   drawHitos(d.hitos);
+  drawGaleria();
   drawCurva(d.curvaS, k.avanceConstruccion);
   drawDonut(d.estatusActividades);
   loadWeather();
