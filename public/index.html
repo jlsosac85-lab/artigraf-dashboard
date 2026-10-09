@@ -153,6 +153,24 @@
   th.sortable .arr{font-size:10px;margin-left:5px;opacity:.45}
   th.sortable.s-on .arr{opacity:1}
 
+  
+  /* --- Carrusel sitio del proyecto --- */
+  .sitio-slider{position:relative;border-radius:12px;overflow:hidden;background:#0b1526}
+  .sitio-slider .sl{display:none;position:relative}
+  .sitio-slider .sl.on{display:block}
+  .sitio-slider img.slimg,.sitio-slider video{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:12px}
+  .sitio-slider .sl-tag{position:absolute;top:12px;left:12px;background:rgba(10,20,35,.78);color:#fff;
+    font:700 12px 'Plus Jakarta Sans',sans-serif;padding:5px 12px;border-radius:999px;letter-spacing:.3px}
+  .sitio-slider .sl-tag.antes{background:rgba(192,57,43,.88)}
+  .sitio-slider .sl-tag.hoy{background:rgba(39,174,96,.9)}
+  .sitio-slider .sl-nav{position:absolute;top:50%;transform:translateY(-50%);font-size:34px;color:#fff;
+    background:rgba(10,20,35,.45);width:40px;height:52px;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;user-select:none;z-index:3;transition:.15s}
+  .sitio-slider .sl-nav:hover{background:rgba(10,20,35,.75)}
+  .sitio-dots{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+  .sitio-dots span{width:9px;height:9px;border-radius:50%;background:#c3d4d1;cursor:pointer;transition:.15s}
+  .sitio-dots span.on{background:#1B3A5C;transform:scale(1.25)}
+
   </style>
 </head>
 <body>
@@ -192,7 +210,7 @@ function valColor(a){ return a>=100?'v-green': a>0?'v-teal':'v-slate'; }
 
 
 // ===== Galería de avances (fotos de los reportes semanales, en public/avances/) =====
-const GALERIA = [{"id": "sem1", "label": "29 jun – 3 jul", "fotos": ["av-sem1-01.jpg", "av-sem1-02.jpg", "av-sem1-03.jpg", "av-sem1-04.jpg", "av-sem1-05.jpg", "av-sem1-06.jpg"]}, {"id": "sem2", "label": "6 – 11 jul", "fotos": ["av-sem2-01.jpg", "av-sem2-02.jpg", "av-sem2-03.jpg", "av-sem2-04.jpg", "av-sem2-05.jpg", "av-sem2-06.jpg", "av-sem2-07.jpg", "av-sem2-08.jpg", "av-sem2-09.jpg"]}, {"id": "sem3", "label": "13 – 18 jul", "fotos": ["av-sem3-01.jpg", "av-sem3-02.jpg", "av-sem3-03.jpg", "av-sem3-04.jpg", "av-sem3-05.jpg", "av-sem3-06.jpg", "av-sem3-07.jpg", "av-sem3-08.jpg", "av-sem3-09.jpg"]}, {"id": "sem4", "label": "20 – 25 jul", "fotos": ["av-sem4-01.jpg", "av-sem4-02.jpg", "av-sem4-03.jpg", "av-sem4-04.jpg", "av-sem4-05.jpg", "av-sem4-06.jpg", "av-sem4-07.jpg", "av-sem4-08.jpg", "av-sem4-09.jpg", "av-sem4-10.jpg", "av-sem4-11.jpg", "av-sem4-12.jpg", "av-sem4-13.jpg", "av-sem4-14.jpg", "av-sem4-15.jpg", "av-sem4-16.jpg", "av-sem4-17.jpg", "av-sem4-18.jpg", "av-sem4-19.jpg", "av-sem4-20.jpg", "av-sem4-21.jpg", "av-sem4-22.jpg", "av-sem4-23.jpg", "av-sem4-24.jpg", "av-sem4-25.jpg", "av-sem4-26.jpg", "av-sem4-27.jpg", "av-sem4-28.jpg", "av-sem4-29.jpg", "av-sem4-30.jpg", "av-sem4-31.jpg", "av-sem4-32.jpg", "av-sem4-33.jpg"]}, {"id": "sem5", "label": "27 – 30 jul", "fotos": ["av-sem5-01.jpg", "av-sem5-02.jpg", "av-sem5-03.jpg", "av-sem5-04.jpg", "av-sem5-05.jpg", "av-sem5-06.jpg"]}, {"id": "sem6", "label": "3 – 8 ago", "fotos": ["av-sem6-01.jpg", "av-sem6-02.jpg", "av-sem6-03.jpg", "av-sem6-04.jpg", "av-sem6-05.jpg", "av-sem6-06.jpg", "av-sem6-07.jpg", "av-sem6-08.jpg", "av-sem6-09.jpg", "av-sem6-10.jpg", "av-sem6-11.jpg", "av-sem6-12.jpg"]}, {"id": "sem7", "label": "10 – 14 ago", "fotos": ["av-sem7-01.jpg", "av-sem7-02.jpg", "av-sem7-03.jpg", "av-sem7-04.jpg", "av-sem7-05.jpg", "av-sem7-06.jpg", "av-sem7-07.jpg", "av-sem7-08.jpg", "av-sem7-09.jpg", "av-sem7-10.jpg", "av-sem7-11.jpg", "av-sem7-12.jpg", "av-sem7-13.jpg"]}, {"id": "sem8", "label": "17 – 21 ago", "fotos": ["av-sem8-01.jpg", "av-sem8-02.jpg", "av-sem8-03.jpg", "av-sem8-04.jpg", "av-sem8-05.jpg", "av-sem8-06.jpg", "av-sem8-07.jpg", "av-sem8-08.jpg", "av-sem8-09.jpg", "av-sem8-10.jpg", "av-sem8-11.jpg", "av-sem8-12.jpg", "av-sem8-13.jpg", "av-sem8-14.jpg"]}, {"id": "sem9", "label": "24 – 28 ago", "fotos": ["av-sem9-01.jpg", "av-sem9-02.jpg", "av-sem9-03.jpg", "av-sem9-04.jpg", "av-sem9-05.jpg", "av-sem9-06.jpg", "av-sem9-07.jpg", "av-sem9-08.jpg", "av-sem9-09.jpg", "av-sem9-10.jpg", "av-sem9-11.jpg", "av-sem9-12.jpg", "av-sem9-13.jpg", "av-sem9-14.jpg", "av-sem9-15.jpg", "av-sem9-16.jpg", "av-sem9-17.jpg", "av-sem9-18.jpg", "av-sem9-19.jpg"]}, {"id": "sem10", "label": "31 ago – 4 sep", "fotos": ["av-sem10-01.jpg", "av-sem10-02.jpg", "av-sem10-03.jpg", "av-sem10-04.jpg", "av-sem10-05.jpg", "av-sem10-06.jpg", "av-sem10-07.jpg", "av-sem10-08.jpg"]}, {"id": "sem11", "label": "7 – 11 sep", "fotos": ["av-sem11-01.jpg", "av-sem11-02.jpg", "av-sem11-03.jpg", "av-sem11-04.jpg", "av-sem11-05.jpg", "av-sem11-06.jpg", "av-sem11-07.jpg", "av-sem11-08.jpg", "av-sem11-09.jpg", "av-sem11-10.jpg"]}, {"id": "sem12", "label": "14 – 18 sep", "fotos": ["av-sem12-01.jpg", "av-sem12-02.jpg", "av-sem12-03.jpg", "av-sem12-04.jpg", "av-sem12-05.jpg", "av-sem12-06.jpg", "av-sem12-07.jpg"]}];
+const GALERIA = [{"id": "sem1", "label": "29 jun – 3 jul", "fotos": ["av-sem1-01.jpg", "av-sem1-02.jpg", "av-sem1-03.jpg", "av-sem1-04.jpg", "av-sem1-05.jpg", "av-sem1-06.jpg"]}, {"id": "sem2", "label": "6 – 11 jul", "fotos": ["av-sem2-01.jpg", "av-sem2-02.jpg", "av-sem2-03.jpg", "av-sem2-04.jpg", "av-sem2-05.jpg", "av-sem2-06.jpg", "av-sem2-07.jpg", "av-sem2-08.jpg", "av-sem2-09.jpg"]}, {"id": "sem3", "label": "13 – 18 jul", "fotos": ["av-sem3-01.jpg", "av-sem3-02.jpg", "av-sem3-03.jpg", "av-sem3-04.jpg", "av-sem3-05.jpg", "av-sem3-06.jpg", "av-sem3-07.jpg", "av-sem3-08.jpg", "av-sem3-09.jpg"]}, {"id": "sem4", "label": "20 – 25 jul", "fotos": ["av-sem4-01.jpg", "av-sem4-02.jpg", "av-sem4-03.jpg", "av-sem4-04.jpg", "av-sem4-05.jpg", "av-sem4-06.jpg", "av-sem4-07.jpg", "av-sem4-08.jpg", "av-sem4-09.jpg", "av-sem4-10.jpg", "av-sem4-11.jpg", "av-sem4-12.jpg", "av-sem4-13.jpg", "av-sem4-14.jpg", "av-sem4-15.jpg", "av-sem4-16.jpg", "av-sem4-17.jpg", "av-sem4-18.jpg", "av-sem4-19.jpg", "av-sem4-20.jpg", "av-sem4-21.jpg", "av-sem4-22.jpg", "av-sem4-23.jpg", "av-sem4-24.jpg", "av-sem4-25.jpg", "av-sem4-26.jpg", "av-sem4-27.jpg", "av-sem4-28.jpg", "av-sem4-29.jpg", "av-sem4-30.jpg", "av-sem4-31.jpg", "av-sem4-32.jpg", "av-sem4-33.jpg"]}, {"id": "sem5", "label": "27 – 30 jul", "fotos": ["av-sem5-01.jpg", "av-sem5-02.jpg", "av-sem5-03.jpg", "av-sem5-04.jpg", "av-sem5-05.jpg", "av-sem5-06.jpg"]}, {"id": "sem6", "label": "3 – 8 ago", "fotos": ["av-sem6-01.jpg", "av-sem6-02.jpg", "av-sem6-03.jpg", "av-sem6-04.jpg", "av-sem6-05.jpg", "av-sem6-06.jpg", "av-sem6-07.jpg", "av-sem6-08.jpg", "av-sem6-09.jpg", "av-sem6-10.jpg", "av-sem6-11.jpg", "av-sem6-12.jpg"]}, {"id": "sem7", "label": "10 – 14 ago", "fotos": ["av-sem7-01.jpg", "av-sem7-02.jpg", "av-sem7-03.jpg", "av-sem7-04.jpg", "av-sem7-05.jpg", "av-sem7-06.jpg", "av-sem7-07.jpg", "av-sem7-08.jpg", "av-sem7-09.jpg", "av-sem7-10.jpg", "av-sem7-11.jpg", "av-sem7-12.jpg", "av-sem7-13.jpg"]}, {"id": "sem8", "label": "17 – 21 ago", "fotos": ["av-sem8-01.jpg", "av-sem8-02.jpg", "av-sem8-03.jpg", "av-sem8-04.jpg", "av-sem8-05.jpg", "av-sem8-06.jpg", "av-sem8-07.jpg", "av-sem8-08.jpg", "av-sem8-09.jpg", "av-sem8-10.jpg", "av-sem8-11.jpg", "av-sem8-12.jpg", "av-sem8-13.jpg", "av-sem8-14.jpg"]}, {"id": "sem9", "label": "24 – 28 ago", "fotos": ["av-sem9-01.jpg", "av-sem9-02.jpg", "av-sem9-03.jpg", "av-sem9-04.jpg", "av-sem9-05.jpg", "av-sem9-06.jpg", "av-sem9-07.jpg", "av-sem9-08.jpg", "av-sem9-09.jpg", "av-sem9-10.jpg", "av-sem9-11.jpg", "av-sem9-12.jpg", "av-sem9-13.jpg", "av-sem9-14.jpg", "av-sem9-15.jpg", "av-sem9-16.jpg", "av-sem9-17.jpg", "av-sem9-18.jpg", "av-sem9-19.jpg"]}, {"id": "sem10", "label": "31 ago – 4 sep", "fotos": ["av-sem10-01.jpg", "av-sem10-02.jpg", "av-sem10-03.jpg", "av-sem10-04.jpg", "av-sem10-05.jpg", "av-sem10-06.jpg", "av-sem10-07.jpg", "av-sem10-08.jpg"]}, {"id": "sem11", "label": "7 – 11 sep", "fotos": ["av-sem11-01.jpg", "av-sem11-02.jpg", "av-sem11-03.jpg", "av-sem11-04.jpg", "av-sem11-05.jpg", "av-sem11-06.jpg", "av-sem11-07.jpg", "av-sem11-08.jpg", "av-sem11-09.jpg", "av-sem11-10.jpg"]}, {"id": "sem12", "label": "14 – 18 sep", "fotos": ["av-sem12-01.jpg", "av-sem12-02.jpg", "av-sem12-03.jpg", "av-sem12-04.jpg", "av-sem12-05.jpg", "av-sem12-06.jpg", "av-sem12-07.jpg"]}, {"id": "sem13", "label": "21 – 25 sep", "fotos": ["av-sem13-01.jpg", "av-sem13-02.jpg", "av-sem13-03.jpg", "av-sem13-04.jpg", "av-sem13-05.jpg", "av-sem13-06.jpg", "av-sem13-07.jpg", "av-sem13-08.jpg"]}, {"id": "sem14", "label": "28 sep – 2 oct", "fotos": ["av-sem14-01.jpg", "av-sem14-02.jpg", "av-sem14-03.jpg", "av-sem14-04.jpg", "av-sem14-05.jpg", "av-sem14-06.jpg", "av-sem14-07.jpg", "av-sem14-08.jpg", "av-sem14-09.jpg", "av-sem14-10.jpg", "av-sem14-11.jpg", "av-sem14-12.jpg", "av-sem14-13.jpg", "av-sem14-14.jpg", "av-sem14-15.jpg", "av-sem14-16.jpg", "av-sem14-17.jpg", "av-sem14-18.jpg"]}];
 let galWeek = GALERIA.length - 1, galIdx = 0;
 function galSrc(w,f){ return f; }  // fotos planas en public/
 function drawGaleria(){
@@ -275,6 +293,46 @@ function makeSortable(tbodyId){
 }
 function initSort(){ makeSortable('prox-body'); makeSortable('det-body'); }
 
+
+// ===== Carrusel Sitio del Proyecto (antes / después) =====
+const SITIO_SLIDES=[
+  {tipo:'img',src:'planta.jpg',tag:'ANTES · Inicio de obra — jun 2026',cls:'antes'},
+  {tipo:'video',src:'sitio-video.mp4',poster:'sitio-video-poster.jpg',tag:'HOY · Recorrido del sistema — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-01.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-02.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-03.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-04.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-05.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-06.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-07.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-08.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-09.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-10.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+  {tipo:'img',src:'sitio-11.jpg',tag:'HOY · Sistema instalado — oct 2026',cls:'hoy'},
+];
+let sitioIdx=0;
+function sitioBuild(){
+  const sl=document.getElementById('sitio-slider'); if(!sl) return;
+  SITIO_SLIDES.forEach((s,i)=>{
+    const d=document.createElement('div'); d.className='sl'+(i===0?' on':'');
+    d.innerHTML = s.tipo==='video'
+      ? `<video src="${s.src}" poster="${s.poster}" controls preload="none" playsinline></video><span class="sl-tag ${s.cls}">${s.tag}</span>`
+      : `<img class="slimg" loading="lazy" src="${s.src}" alt="${s.tag}"><span class="sl-tag ${s.cls}">${s.tag}</span>`;
+    sl.appendChild(d);
+  });
+  const dots=document.getElementById('sitio-dots');
+  dots.innerHTML=SITIO_SLIDES.map((_,i)=>`<span class="${i===0?'on':''}" onclick="sitioGo(${i})"></span>`).join('');
+}
+function sitioGo(i){
+  sitioIdx=(i+SITIO_SLIDES.length)%SITIO_SLIDES.length;
+  document.querySelectorAll('#sitio-slider .sl').forEach((e,k)=>{
+    e.classList.toggle('on',k===sitioIdx);
+    const v=e.querySelector('video'); if(v && k!==sitioIdx) v.pause();
+  });
+  document.querySelectorAll('#sitio-dots span').forEach((e,k)=>e.classList.toggle('on',k===sitioIdx));
+}
+function sitioMove(d){ sitioGo(sitioIdx+d); }
+
 async function cargar(){
   if(window.__PREVIEW__){ render(window.__PREVIEW__); return; }
   $("app").innerHTML = '<div class="loading">Cargando datos del proyecto…</div>';
@@ -328,10 +386,12 @@ function render(d){
     <div class="sec"><span class="bar"></span>Sitio del proyecto y clima</div>
     <div class="grid-site">
       <div class="panel">
-        <div class="head-row"><h3>Sitio del proyecto · Planta Torreón</h3></div>
-        <img class="planta" src="planta.jpg" alt="Planta Artigraf Torreón"
-          onerror="this.style.display='none';var ph=this.parentNode.querySelector('.planta-ph');if(ph)ph.style.display='flex';" />
-        <div class="planta-ph" style="display:none">Agrega la foto en <b>&nbsp;public/planta.jpg</b>&nbsp; y vuelve a publicar.</div>
+        <div class="head-row"><h3>Sitio del proyecto · Planta Torreón — antes y después</h3></div>
+        <div class="sitio-slider" id="sitio-slider">
+          <span class="sl-nav" style="left:0" onclick="sitioMove(-1)">‹</span>
+          <span class="sl-nav" style="right:0" onclick="sitioMove(1)">›</span>
+        </div>
+        <div class="sitio-dots" id="sitio-dots"></div>
       </div>
       <div class="panel">
         <div class="head-row"><h3>Clima en Torreón, Coahuila</h3></div>
@@ -394,6 +454,7 @@ function render(d){
 
   drawHitos(d.hitos);
   drawGaleria();
+  sitioBuild();
   initSort();
   drawCurva(d.curvaS, k.avanceConstruccion);
   drawDonut(d.estatusActividades);
